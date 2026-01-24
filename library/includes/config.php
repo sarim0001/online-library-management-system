@@ -4,9 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // DB credentials.
-define('DB_HOST','localhost');
+define('DB_HOST','mysql.railway.internal');
 define('DB_USER','root');
-define('DB_PASS','');
+define('DB_PASS','GxCqwIxdtdVIQEflwyGOnJqegsKDPEIK');
 define('DB_NAME','library');
 // Establish database connection.
 try
@@ -19,3 +19,4 @@ exit("Error: " . $e->getMessage());
 }
 
 ?>
+
