@@ -1,13 +1,16 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-WORKDIR /app
+# Install required PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql mysqli
 
-# Install MySQL extension
-RUN docker-php-ext-install mysqli
+# Enable Apache rewrite
+RUN a2enmod rewrite
 
-# Copy project
-COPY . /app
+# Set document root
+WORKDIR /var/www/html
 
-EXPOSE 8080
+# Copy project files
+COPY . /var/www/html
 
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "/app"]
+# Fix permissions
+RUN chown -R www-data:www-data /var/www/html
