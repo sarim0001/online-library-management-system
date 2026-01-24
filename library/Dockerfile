@@ -1,15 +1,16 @@
 FROM php:8.2-apache
 
-# Force remove ALL MPMs first
-RUN rm -f /etc/apache2/mods-enabled/mpm_*
+# Disable all MPMs explicitly
+RUN a2dismod mpm_event || true
+RUN a2dismod mpm_worker || true
 
-# Enable ONLY prefork (required for PHP)
+# Enable ONLY prefork
 RUN a2enmod mpm_prefork
 
 # PHP extensions
 RUN docker-php-ext-install mysqli
 
-# Enable rewrite
+# Apache rewrite
 RUN a2enmod rewrite
 
 # Copy project
@@ -17,5 +18,4 @@ COPY . /var/www/html/
 
 WORKDIR /var/www/html
 
-# Permissions
 RUN chown -R www-data:www-data /var/www/html
