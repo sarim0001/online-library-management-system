@@ -1,21 +1,13 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Disable all MPMs explicitly
-RUN a2dismod mpm_event || true
-RUN a2dismod mpm_worker || true
+WORKDIR /app
 
-# Enable ONLY prefork
-RUN a2enmod mpm_prefork
-
-# PHP extensions
+# Install MySQL extension
 RUN docker-php-ext-install mysqli
 
-# Apache rewrite
-RUN a2enmod rewrite
-
 # Copy project
-COPY . /var/www/html/
+COPY . /app
 
-WORKDIR /var/www/html
+EXPOSE 8080
 
-RUN chown -R www-data:www-data /var/www/html
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/app"]
