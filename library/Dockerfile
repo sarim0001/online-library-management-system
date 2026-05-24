@@ -1,12 +1,7 @@
 FROM php:8.2-cli
-
 WORKDIR /app
-
-# Install MySQL support (VERY IMPORTANT)
 RUN docker-php-ext-install mysqli pdo pdo_mysql
-
 COPY . /app
-
 EXPOSE 8080
-
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "/app"]
+# -t points to the library subfolder
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/app/library"]
