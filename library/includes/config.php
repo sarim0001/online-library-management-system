@@ -8,13 +8,10 @@ $pass = getenv('MYSQLPASSWORD');
 $name = getenv('MYSQLDATABASE');
 $port = getenv('MYSQLPORT') ?: '3306';
 
-
-
 try {
     $dbh = new PDO(
         "mysql:host=$host;port=$port;dbname=$name",
-        $user,
-        $pass,
+        $user, $pass,
         [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
