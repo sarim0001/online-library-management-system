@@ -1,22 +1,28 @@
-<?php 
-
+<?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// DB credentials.
-define('DB_HOST','mysql.railway.internal');
-define('DB_USER','root');
-define('DB_PASS','GxCqwIxdtdVIQEflwyGOnJqegsKDPEIK');
-define('DB_NAME','library');
-// Establish database connection.
-try
-{
-$dbh = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USER, DB_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-}
-catch (PDOException $e)
-{
-exit("Error: " . $e->getMessage());
-}
+$host = getenv('MYSQLHOST');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$name = getenv('MYSQLDATABASE');
+$port = getenv('MYSQLPORT') ?: '3306';
 
+// Debug: temporarily show what values Railway is injecting
+echo "Connecting to: $host:$port / $name <br>";
+
+try {
+    $dbh = new PDO(
+        "mysql:host=$host;port=$port;dbname=$name",
+        $user,
+        $pass,
+        [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_TIMEOUT => 10
+        ]
+    );
+} catch (PDOException $e) {
+    exit("DB Error: " . $e->getMessage());
+}
 ?>
-
