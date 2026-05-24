@@ -8,8 +8,7 @@ $pass = getenv('MYSQLPASSWORD');
 $name = getenv('MYSQLDATABASE');
 $port = getenv('MYSQLPORT') ?: '3306';
 
-// Debug: temporarily show what values Railway is injecting
-echo "Connecting to: $host:$port / $name <br>";
+
 
 try {
     $dbh = new PDO(
